@@ -10,6 +10,9 @@ import Util.ConexionDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * @author Gena
@@ -40,21 +43,69 @@ public class ClienteDAO {
     }
 }
 
-public static void main(String[] args) {
-    try {
-        ClienteDAO dao = new ClienteDAO();
-        Cliente c1 = new Cliente();
-        c1.setPrimerNombre("Juan");
-        c1.setSegundoNombre("Carlos");
-        c1.setPrimerApellido("Pérez");
-        c1.setSegundoApellido("Gómez");
-        c1.setCelular("12345678");
-        c1.setDireccion("Calle 123, Ciudad");
-        c1.setCedula("12345678901234");
-        dao.crearCliente(c1);
-        System.out.println("Cliente creado con éxito!");
-    } catch (SQLException e) {
-        System.err.println("Error: " + e.getMessage());
+    public List<Cliente> leerTodosClientes() throws SQLException {
+        String sql = "SELECT * FROM Clientes";
+        List<Cliente> clientes = new ArrayList<>();
+
+        try (Connection c = ConexionDB.getConnection();
+             PreparedStatement stmt = c.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Cliente cliente = new Cliente();
+                cliente.setIdCliente(rs.getInt("id_cliente"));
+                cliente.setPrimerNombre(rs.getString("primer_nombre"));
+                cliente.setSegundoNombre(rs.getString("segundo_nombre"));
+                cliente.setPrimerApellido(rs.getString("primer_apellido"));
+                cliente.setSegundoApellido(rs.getString("segundo_apellido"));
+                cliente.setCelular(rs.getString("celular"));
+                cliente.setDireccion(rs.getString("direccion"));
+                cliente.setCedula(rs.getString("cedula"));
+                clientes.add(cliente);
+            }
+        }
+        return clientes;
     }
-}
+    public void actualizarCliente(Cliente cliente) throws SQLException {
+        String sql = "UPDATE Clientes SET primer_nombre = ?, segundo_nombre = ?, primer_apellido = ?, segundo_apellido = ?, celular = ?, direccion = ?, cedula = ? WHERE id_cliente = ?";
+
+        try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {
+            stmt.setString(1, cliente.getPrimerNombre());
+            stmt.setString(2, cliente.getSegundoNombre());
+            stmt.setString(3, cliente.getPrimerApellido());
+            stmt.setString(4, cliente.getSegundoApellido());
+            stmt.setString(5, cliente.getCelular());
+            stmt.setString(6, cliente.getDireccion());
+            stmt.setString(7, cliente.getCedula());
+            stmt.setInt(8, cliente.getIdCliente());
+            stmt.executeUpdate();
+        }
+    }
+    
+    public void eliminarCliente(int idCliente) throws SQLException {
+        String sql = "DELETE FROM Clientes WHERE id_cliente = ?";
+
+        try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {
+            stmt.setInt(1, idCliente);
+            stmt.executeUpdate();
+        }
+    }
+    
+    public static void main(String[] args) {
+        try {
+            ClienteDAO dao = new ClienteDAO();
+            Cliente cliente = new Cliente();
+            cliente.setIdCliente(1); // ID existente
+            cliente.setPrimerNombre("Juan");
+            cliente.setSegundoNombre("Carlos");
+            cliente.setPrimerApellido("Pérez");
+            cliente.setSegundoApellido("Gómez");
+            cliente.setCelular("1234567");
+            cliente.setDireccion("Calle 123");
+            cliente.setCedula("12345678");
+            dao.actualizarCliente(cliente);
+            System.out.println("Cliente actualizado.");
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
 }

@@ -14,6 +14,7 @@ import java.util.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Statement;
 
 /**
  *
@@ -21,20 +22,29 @@ import java.util.List;
  */
 public class CompraDAO {
 
-    public void crearCompra(Compra compra) throws SQLException {
+    public int crearCompra(Compra compra) throws SQLException {
         String sql = """
         INSERT INTO Compras (
             id_empleado, 
             fecha_compra, 
             total_compra
         ) VALUES (?, ?, ?)""";
+        int generatedId = -1;
 
-        try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql)) {
+        try (Connection c = ConexionDB.getConnection(); PreparedStatement stmt = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, compra.getIdEmpleado());
             stmt.setDate(2, new java.sql.Date(compra.getFechaCompra().getTime()));
             stmt.setFloat(3, compra.getTotalCompra());
             stmt.executeUpdate();
+            
+            //Obtener el ID generado
+            try (ResultSet rs = stmt.getGeneratedKeys()){
+                if(rs.next()){
+                    generatedId = rs.getInt(1);
+                }
+            }
         }
+        return generatedId;
     }
 
     public List<Compra> leerTodasCompras() throws SQLException {
@@ -78,13 +88,15 @@ public class CompraDAO {
     public static void main(String[] args) {
         try {
             CompraDAO dao = new CompraDAO();
-         Compra compra = new Compra();
-        compra.setIdCompra(1); // ID existente
-        compra.setIdEmpleado(2);
-        compra.setFechaCompra(new java.util.Date());
-        compra.setTotalCompra(1500.50f);
-        dao.actualizarCompra(compra);
-        System.out.println("Compra actualizada.");
+            
+            
+            Compra compra = new Compra();
+            compra.setIdCompra(1); // ID existente
+            compra.setIdEmpleado(2);
+            compra.setFechaCompra(new java.util.Date());
+            compra.setTotalCompra(1500.50f);
+            dao.actualizarCompra(compra);
+            System.out.println("Compra actualizada.");
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage());
         }

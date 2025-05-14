@@ -107,18 +107,25 @@ public class VistaCategorias extends javax.swing.JPanel {
 
         tablaCategorias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID Categoria", "Nombre", "Descripción"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -163,7 +170,7 @@ public class VistaCategorias extends javax.swing.JPanel {
                             .addComponent(jLabel3))
                         .addGap(18, 18, 18)
                         .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 23, Short.MAX_VALUE))
+                .addGap(0, 17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,8 +192,8 @@ public class VistaCategorias extends javax.swing.JPanel {
                     .addComponent(btnGuardar)
                     .addComponent(btnEliminar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -271,12 +278,10 @@ public class VistaCategorias extends javax.swing.JPanel {
         
         if (categorias != null) {
             for (Categoria cat : categorias) {
-                if (textoBusqueda.isEmpty() ||
-                            cat.getNombreCategoria().toLowerCase().contains(textoBusqueda)||
-                            cat.getDescripcionCategoria().toLowerCase().contains(textoBusqueda)){
-                }
+                if (textoBusqueda.isEmpty() 
+                            || cat.getNombreCategoria().toLowerCase().contains(textoBusqueda)
+                            || cat.getDescripcionCategoria().toLowerCase().contains(textoBusqueda)) {
                 
-                    {
                 Object[] fila = {
                         cat.getIdCategoria(),
                         cat.getNombreCategoria(),

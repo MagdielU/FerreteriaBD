@@ -40,11 +40,21 @@ public class ClienteControlador {
     }
 
     // Método para obtener todos los clientes
+    // Método para obtener todos los clientes
     public List<Cliente> obtenerTodosClientes() {
         try {
             return clienteDAO.leerTodosClientes();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al leer los clientes: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
+    
+    public Cliente obtenerClientePorId(int idCliente) {
+        try {
+            return clienteDAO.obtenerClientePorId(idCliente);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener el cliente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return null;
         }
     }

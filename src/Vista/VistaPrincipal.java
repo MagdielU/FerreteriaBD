@@ -17,7 +17,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
         initComponents();
         opciones.addTab("Categorias", new VistaCategorias());
         opciones.addTab("Productos", new VistaProductos());
-        opciones.addTab("Empleados", new vistaEmpleados());
+        opciones.addTab("Empleados", new VistaEmpleados());
+        opciones.addTab("Clientes", new VistaClientes());
+        opciones.addTab("Usuarios", new VistaUsuarios());
+        opciones.addTab("Compras", new VistaCompras());
+        opciones.addTab("Ventas", new VistaVentas());
     }
 
     /**
@@ -33,23 +37,18 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FerreteriaNET");
-        setPreferredSize(new java.awt.Dimension(800, 500));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(opciones, javax.swing.GroupLayout.PREFERRED_SIZE, 788, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(opciones, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(opciones, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
         );
 
         pack();

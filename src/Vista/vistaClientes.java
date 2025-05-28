@@ -8,12 +8,12 @@ package Vista;
  *
  * @author Gena
  */
-public class vistaClientes extends javax.swing.JPanel {
+public class VistaClientes extends javax.swing.JPanel {
 
     /**
      * Creates new form vistaClientes
      */
-    public vistaClientes() {
+    public VistaClientes() {
         initComponents();
     }
 

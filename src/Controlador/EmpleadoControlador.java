@@ -48,6 +48,16 @@ public class EmpleadoControlador {
             return null;
         }
     }
+    
+    // Obtener un empleado por su ID
+    public Empleado obtenerEmpleadoPorId(int idEmpleado) {
+        try {
+            return empleadoDAO.obtenerEmpleadoPorId(idEmpleado);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al buscar el empleado: " + e.getMessage());
+            return null;
+        }
+    }
 
     // Método para actualizar un empleado existente
     public void actualizarEmpleado(int idEmpleado, String primerNombre, String segundoNombre, String primerApellido, 

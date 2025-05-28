@@ -8,12 +8,12 @@ package Vista;
  *
  * @author Gena
  */
-public class vistaUsuarios extends javax.swing.JPanel {
+public class VistaUsuarios extends javax.swing.JPanel {
 
     /**
      * Creates new form vistaUsuarios
      */
-    public vistaUsuarios() {
+    public VistaUsuarios() {
         initComponents();
     }
 

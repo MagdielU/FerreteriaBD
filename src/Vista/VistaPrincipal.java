@@ -22,6 +22,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         opciones.addTab("Usuarios", new VistaUsuarios());
         opciones.addTab("Compras", new VistaCompras());
         opciones.addTab("Ventas", new VistaVentas());
+        opciones.addTab("Consultas con IA", new VistaConsultasDinamicas());
     }
 
     /**
